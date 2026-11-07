@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🎁 Amigo Secreto de Colores 🎄</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0b3d2e 0%, #1a5c3a 50%, #8b0000 100%);
+    color: #fff;
+    padding: 15px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 700px;
+    margin: 10px auto;
+    padding: 25px;
+    background: rgba(255,255,255,0.1);
+    border: 3px solid #ffd700;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(255,215,0,0.3);
+    backdrop-filter: blur(10px);
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px dashed #ffd700;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-style: italic;
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    opacity: 0.9;
+  }
+
+  .device-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    border: 2px solid #ffd700;
+  }
+
+  .screen { display: none; animation: fadeIn 0.5s; }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section {
+    background: rgba(0,0,0,0.25);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid rgba(255,215,0,0.3);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    color: #ffd700;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    border: 3px solid #ffd700;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.95);
+    color: #0b3d2e;
+    font-weight: bold;
+    outline: none;
+    transition: transform 0.2s;
+  }
+
+  input[type="text"]:focus, input[type="password"]:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(255,215,0,0.5);
+  }
+
+  .color-input-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .color-input-area input {
+    flex: 1;
+  }
+
+  .btn-add {
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background: #1a5c3a;
+    color: #fff;
+    border: 3px solid #ffd700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .btn-add:hover {
+    transform: scale(1.05);
+  }
+
+  .color-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .color-tag {
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: 3px solid #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideIn 0.3s;
+  }
+
+  @keyframes slideIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .color-tag .remove {
+    cursor: pointer;
+    background: rgba(255,255,255,0.3);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+
+  .color-tag .remove:hover {
+    background: rgba(255,0,0,0.5);
+  }
+
+  .btn {
+    padding: 16px 24px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #c41e3a, #8b0000);
+    color: #fff;
+    border: 3px solid #ffd700;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    margin: 10px 0;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(196,30,58,0.5);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .btn-green {
+    background: linear-gradient(135deg, #1a5c3a, #0b3d2e);
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .link-box {
+    background: rgba(0,0,0,0.5);
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #ffd700;
+    margin: 15px 0;
+    word-break: break-all;
+    font-size: 0.85rem;
+    text-align: left;
+    font-family: monospace;
+  }
+
+  .share-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .share-btn {
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 3px solid #ffd700;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .share-btn:hover {
+    transform: scale(1.03);
+  }
+
+  .whatsapp { background: #25d366; }
+  .facebook { background: #1877f2; }
+  .copy { background: #6c757d; }
+
+  .color-reveal {
+    width: 100%;
+    height: 200px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 5px solid #ffd700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    box-shadow: 0 0 30px rgba(255,215,0,0.5);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+
+  .msg {
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  .msg-info { 
+    background: rgba(30,144,255,0.3); 
+    border: 2px solid #1e90ff; 
+  }
+
+  .msg-ok { 
+    background: rgba(50,205,50,0.3); 
+    border: 2px solid #32cd32; 
+  }
+
+  .msg-warning {
+    background: rgba(255,165,0,0.3);
+    border: 2px solid #ffa500;
+  }
+
+  .instructions {
+    background: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px dashed #ffd700;
+    margin-bottom: 20px;
+  }
+
+  .instructions ol {
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+
+  .instructions li {
+    margin: 8px 0;
+    font-size: 0.95rem;
+  }
+
+  .selected-count {
+    text-align: center;
+    padding: 10px;
+    background: rgba(255,215,0,0.2);
+    border-radius: 10px;
+    margin: 15px 0;
+    font-weight: bold;
+    color: #ffd700;
+  }
+
+  .admin-code {
+    background: rgba(255,215,0,0.2);
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #ffd700;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffd700;
+    margin: 15px 0;
+    font-family: monospace;
+    letter-spacing: 3px;
+  }
+
+  .player-list {
+    background: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+  }
+
+  .player-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin: 8px 0;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    border-left: 4px solid #ffd700;
+  }
+
+  .player-name {
+    font-weight: bold;
+    flex: 1;
+  }
+
+  .player-color {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: 2px solid #fff;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin: 15px 0;
+  }
+
+  .stat-box {
+    background: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #ffd700;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffd700;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .snow {
+    position: fixed;
+    top: -20px;
+    color: #fff;
+    pointer-events: none;
+    animation: fall linear infinite;
+    z-index: 0;
+  }
+
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+  }
+
+  .color-suggestions {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  @media (min-width: 768px) {
+    .container { padding: 35px; }
+    .share-buttons { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .color-input-area { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>🎁 Amigo Secreto de Colores 🎄</h1>
+    <p class="subtitle">¡Escribe los colores y descubre qué te tocó!</p>
+    <div class="device-badge" id="deviceBadge">📱 Detectando...</div>
+  </div>
+
+  <!-- PANTALLA 1: Organizador configura el juego -->
+  <div class="screen active" id="screen1">
+    <div class="instructions">
+      <strong>📋 ¿Cómo funciona?</strong>
+      <ol>
+        <li>Escribe tu nombre</li>
+        <li>Escribe los colores que quieras (ej: rojo, azul, dorado)</li>
+        <li>Genera y comparte tu enlace</li>
+        <li>Tus amigos recibirán uno de esos colores al azar</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🎅 Paso 1: Tu nombre</div>
+      <div class="form-group">
+        <input type="text" id="senderName" placeholder="Ej: María">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🎨 Paso 2: Escribe los colores</div>
+      <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 10px;">
+        Agrega al menos 2 colores. Puedes escribir nombres en español o inglés
+      </p>
+      
+      <div class="color-input-area">
+        <input type="text" id="colorInput" placeholder="Ej: rojo, azul, verde, dorado..." onkeypress="handleColorInput(event)">
+        <button class="btn-add" onclick="agregarColor()">➕ Agregar</button>
+      </div>
+
+      <div class="color-suggestions">
+        💡 Ejemplos: rojo, azul, verde, amarillo, morado, rosa, negro, blanco, dorado, plateado, naranja, café, gris
+      </div>
+
+      <div class="color-list" id="colorList"></div>
+      <div class="selected-count" id="selectedCount">0 colores agregados</div>
+    </div>
+
+    <button class="btn" id="generateBtn" onclick="generarEnlace()" disabled>
+      ✨ Generar mi enlace
+    </button>
+  </div>
+
+  <!-- PANTALLA 2: Enlace listo para compartir -->
+  <div class="screen" id="screen2">
+    <div class="msg msg-ok">
+      ✅ ¡Enlace listo para <strong id="displayName"></strong>!
+    </div>
+
+    <div class="section">
+      <div class="section-title">🔑 Tu código de administrador</div>
+      <div class="admin-code" id="adminCode"></div>
+      <p style="font-size: 0.9rem; text-align: center;">
+        ⚠️ <strong>¡GUARDA ESTE CÓDIGO!</strong> Lo necesitarás para ver los resultados
+      </p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🔗 Tu enlace único</div>
+      <div class="link-box" id="linkBox"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📤 Comparte por:</div>
+      <div class="share-buttons">
+        <button class="share-btn whatsapp" onclick="compartirWhatsApp()">
+          📱 WhatsApp
+        </button>
+        <button class="share-btn facebook" onclick="compartirFacebook()">
+          📘 Facebook
+        </button>
+        <button class="share-btn copy" onclick="copiarEnlace()">
+          📋 Copiar enlace
+        </button>
+      </div>
+    </div>
+
+    <div class="msg msg-info">
+      💡 <strong>Colores disponibles:</strong> <span id="colorListDisplay"></span>
+    </div>
+
+    <button class="btn btn-green" onclick="irAPanelAdmin()">
+      👨‍💼 Ir al Panel de Administrador
+    </button>
+
+    <button class="btn" onclick="volverInicio()">
+      🔄 Crear otro juego
+    </button>
+  </div>
+
+  <!-- PANTALLA 3: Jugador recibe invitación -->
+  <div class="screen" id="screen3">
+    <div class="msg msg-info">
+      👋 ¡Hola! <strong id="recipientName"></strong> te invitó a su Amigo Secreto de Colores 🎄
+    </div>
+
+    <div class="section">
+      <div class="section-title">🎨 Colores disponibles</div>
+      <div id="availableColors"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🎅 Tu nombre</div>
+      <div class="form-group">
+        <input type="text" id="playerName" placeholder="Ej: Juan">
+      </div>
+    </div>
+
+    <button class="btn" onclick="escogerColor()">
+      🎲 Escoger mi color secreto
+    </button>
+  </div>
+
+  <!-- PANTALLA 4: Color revelado al jugador -->
+  <div class="screen" id="screen4">
+    <div class="msg msg-ok">
+      🎉 ¡Felicidades <strong id="playerDisplayName"></strong>!
+    </div>
+
+    <p style="text-align: center; margin: 20px 0; font-size: 1.2rem;">
+      Tu color secreto es:
+    </p>
+
+    <div class="color-reveal" id="colorReveal">🎁</div>
+
+    <h2 style="text-align: center; color: #ffd700; margin: 20px 0; font-size: 1.8rem;" id="colorName"></h2>
+
+    <div class="msg msg-warning">
+      🔒 <strong>¡Secreto!</strong> Este es tu color. No se lo digas a nadie hasta el momento de la revelación.
+    </div>
+
+    <div class="msg msg-info">
+      🎄 Organizado por: <strong id="organizerName"></strong>
+    </div>
+
+    <button class="btn btn-green" onclick="location.reload()">
+      🔄 Volver al inicio
+    </button>
+  </div>
+
+  <!-- PANTALLA 5: Panel de Administrador -->
+  <div class="screen" id="screen5">
+    <div class="msg msg-ok">
+      👨‍💼 Panel de Administrador
+    </div>
+
+    <div class="section">
+      <div class="section-title">🔑 Ingresa tu código de administrador</div>
+      <div class="form-group">
+        <input type="password" id="adminCodeInput" placeholder="Código de 6 caracteres">
+      </div>
+      <button class="btn" onclick="verificarAdmin()">
+        🔓 Ver resultados
+      </button>
+    </div>
+
+    <div id="adminPanel" style="display: none;">
+      <div class="stats">
+        <div class="stat-box">
+          <div class="stat-number" id="totalPlayers">0</div>
+          <div class="stat-label">Jugadores</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="totalColors">0</div>
+          <div class="stat-label">Colores</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🎮 Lista de jugadores y sus colores</div>
+        <div class="player-list" id="playerList"></div>
+      </div>
+
+      <button class="btn" onclick="exportarResultados()">
+        📥 Exportar resultados
+      </button>
+
+      <button class="btn btn-green" onclick="volverInicio()">
+        🏠 Volver al inicio
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ============================================
+  // 🎄 AMIGO SECRETO DE COLORES - JAVASCRIPT
+  // ============================================
+
+  // Mapa de colores comunes (nombre -> código hex)
+  const mapaColores = {
+    "rojo": "#c41e3a",
+    "red": "#c41e3a",
+    "verde": "#1a5c3a",
+    "green": "#1a5c3a",
+    "azul": "#1e90ff",
+    "blue": "#1e90ff",
+    "amarillo": "#ffeb3b",
+    "yellow": "#ffeb3b",
+    "morado": "#6a0dad",
+    "purple": "#6a0dad",
+    "rosa": "#ff1493",
+    "pink": "#ff1493",
+    "naranja": "#ff8c00",
+    "orange": "#ff8c00",
+    "negro": "#000000",
+    "black": "#000000",
+    "blanco": "#ffffff",
+    "white": "#ffffff",
+    "dorado": "#ffd700",
+    "gold": "#ffd700",
+    "plateado": "#c0c0c0",
+    "silver": "#c0c0c0",
+    "gris": "#808080",
+    "gray": "#808080",
+    "cafe": "#6b4423",
+    "brown": "#6b4423",
+    "marron": "#6b4423",
+    "celeste": "#87ceeb",
+    "cyan": "#87ceeb",
+    "turquesa": "#40e0d0",
+    "turquoise": "#40e0d0",
+    "vino": "#722f37",
+    "burgundy": "#722f37",
+    "coral": "#ff7f50",
+    "salmon": "#fa8072",
+    "lila": "#c8a2c8",
+    "lavender": "#e6e6fa",
+    "beige": "#f5f5dc",
+    "crema": "#fffdd0",
+    "chocolate": "#3e2723",
+    "navy": "#000080",
+    "teal": "#008080",
+    "olive": "#808000",
+    "maroon": "#800000"
+  };
+
+  // Colores claros (texto negro)
+  const coloresClaros = ["blanco", "white", "amarillo", "yellow", "dorado", "gold", "plateado", "silver", "celeste", "cyan", "beige", "crema", "lavender"];
+
+  // Variables globales
+  let nombreOrganizador = "";
+  let enlaceActual = "";
+  let coloresSeleccionados = [];
+  let codigoAdmin = "";
+  let codigoJuego = "";
+
+  // Detectar dispositivo
+  function detectarDispositivo() {
+    const ua = navigator.userAgent;
+    const badge = document.getElementById("deviceBadge");
+    if (/android/i.test(ua)) badge.textContent = "📱 Android";
+    else if (/iPad|iPhone|iPod/.test(ua)) badge.textContent = "📱 iPhone/iPad";
+    else if (/Windows/i.test(ua)) badge.textContent = "💻 Windows PC";
+    else if (/Macintosh/i.test(ua)) badge.textContent = "💻 Mac";
+    else if (/Linux/i.test(ua)) badge.textContent = "💻 Linux";
+    else badge.textContent = "🌐 Navegador Web";
+  }
+
+  // Agregar color desde input
+  function agregarColor() {
+    const input = document.getElementById("colorInput");
+    const color = input.value.trim().toLowerCase();
+    
+    if (!color) {
+      alert("⚠️ Escribe un color");
+      return;
+    }
+
+    // Verificar si ya existe
+    if (coloresSeleccionados.includes(color)) {
+      alert("⚠️ Este color ya fue agregado");
+      return;
+    }
+
+    // Verificar si es un color válido
+    if (!mapaColores[color] && !isValidCSSColor(color)) {
+      alert("⚠️ Color no reconocido. Intenta con: rojo, azul, verde, amarillo, etc.");
+      return;
+    }
+
+    coloresSeleccionados.push(color);
+    input.value = "";
+    input.focus();
+    actualizarListaColores();
+  }
+
+  // Validar si es un color CSS válido
+  function isValidCSSColor(color) {
+    const option = document.createElement('option');
+    option.style.color = color;
+    return option.style.color !== '';
+  }
+
+  // Manejar Enter en input
+  function handleColorInput(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      agregarColor();
+    }
+  }
+
+  // Eliminar color
+  function eliminarColor(color) {
+    coloresSeleccionados = coloresSeleccionados.filter(c => c !== color);
+    actualizarListaColores();
+  }
+
+  // Actualizar lista visual de colores
+  function actualizarListaColores() {
+    const container = document.getElementById("colorList");
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    coloresSeleccionados.forEach(color => {
+      const codigo = mapaColores[color] || color;
+      const esClaro = coloresClaros.includes(color);
+      
+      const tag = document.createElement("div");
+      tag.className = "color-tag";
+      tag.style.backgroundColor = codigo;
+      tag.style.color = esClaro ? "#000" : "#fff";
+      
+      tag.innerHTML = `
+        <span>${color}</span>
+        <span class="remove" onclick="eliminarColor('${color}')">✕</span>
+      `;
+      
+      container.appendChild(tag);
+    });
+
+    const count = coloresSeleccionados.length;
+    const countEl = document.getElementById("selectedCount");
+    if (countEl) {
+      countEl.textContent = count + " color" + (count !== 1 ? "es" : "") + " agregado" + (count !== 1 ? "s" : "");
+    }
+
+    const btn = document.getElementById("generateBtn");
+    if (btn) btn.disabled = count < 2;
+  }
+
+  // Navegación entre pantallas
+  function mostrarPantalla(num) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const pantalla = document.getElementById('screen' + num);
+    if (pantalla) pantalla.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Generar código admin
+  function generarCodigoAdmin() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
+  // Verificar parámetros URL
+  function verificarParametros() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const host = params.get('host');
+    const colors = params.get('colors');
+
+    if (code && host && colors) {
+      nombreOrganizador = decodeURIComponent(host);
+      coloresSeleccionados = decodeURIComponent(colors).split(',');
+      codigoJuego = code;
+
+      const recipientEl = document.getElementById("recipientName");
+      if (recipientEl) recipientEl.textContent = nombreOrganizador;
+
+      mostrarColoresDisponibles();
+      mostrarPantalla(3);
+    } else {
+      mostrarPantalla(1);
+    }
+  }
+
+  // Mostrar colores al jugador
+  function mostrarColoresDisponibles() {
+    const container = document.getElementById("availableColors");
+    if (!container) return;
+
+    container.innerHTML = '';
+    container.style.display = 'flex';
+    container.style.flexWrap = 'wrap';
+    container.style.gap = '10px';
+
+    coloresSeleccionados.forEach(color => {
+      const codigo = mapaColores[color] || color;
+      const esClaro = coloresClaros.includes(color);
+      
+      const div = document.createElement("div");
+      div.style.cssText = `
+        padding: 12px 20px;
+        border-radius: 20px;
+        background: ${codigo};
+        border: 3px solid #fff;
+        font-weight: bold;
+        font-size: 1rem;
+        color: ${esClaro ? "#000" : "#fff"};
+        text-shadow: ${esClaro ? "none" : "1px 1px 2px rgba(0,0,0,0.5)"};
+      `;
+      div.textContent = color;
+      container.appendChild(div);
+    });
+  }
+
+  // Generar enlace del juego
+  function generarEnlace() {
+    const nombreInput = document.getElementById("senderName");
+    const nombre = nombreInput ? nombreInput.value.trim() : "";
+
+    if (!nombre) {
+      alert("⚠️ Escribe tu nombre");
+      return;
+    }
+
+    if (coloresSeleccionados.length < 2) {
+      alert("⚠️ Agrega al menos 2 colores");
+      return;
+    }
+
+    nombreOrganizador = nombre;
+    codigoAdmin = generarCodigoAdmin();
+    codigoJuego = Date.now().toString(36) + Math.random().toString(36).substr(2);
+
+    const baseUrl = window.location.origin + window.location.pathname;
+    const colorsParam = encodeURIComponent(coloresSeleccionados.join(','));
+    enlaceActual = `${baseUrl}?code=${codigoJuego}&host=${encodeURIComponent(nombre)}&colors=${colorsParam}`;
+
+    // Guardar datos del juego
+    const juegoData = {
+      codigo: codigoJuego,
+      organizador: nombre,
+      colores: coloresSeleccionados,
+      codigoAdmin: codigoAdmin,
+      jugadores: [],
+      fecha: new Date().toISOString()
+    };
+    localStorage.setItem('juego_' + codigoJuego, JSON.stringify(juegoData));
+
+    // Actualizar UI
+    const displayName = document.getElementById("displayName");
+    if (displayName) displayName.textContent = nombre;
+
+    const adminCode = document.getElementById("adminCode");
+    if (adminCode) adminCode.textContent = codigoAdmin;
+
+    const linkBox = document.getElementById("linkBox");
+    if (linkBox) linkBox.textContent = enlaceActual;
+
+    const colorListDisplay = document.getElementById("colorListDisplay");
+    if (colorListDisplay) colorListDisplay.textContent = coloresSeleccionados.join(', ');
+
+    mostrarPantalla(2);
+    lanzarConfeti();
+  }
+
+  // Compartir por WhatsApp
+  function compartirWhatsApp() {
+    const msg = `🎄 ¡Únete a mi Amigo Secreto de Colores! 🎁\n\nSoy ${nombreOrganizador}. Haz clic para descubrir tu color secreto:\n\n${enlaceActual}\n\n🎅 ¡Feliz Navidad!`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
+  }
+
+  // Compartir por Facebook
+  function compartirFacebook() {
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(enlaceActual)}`, "_blank");
+  }
+
+  // Copiar enlace
+  function copiarEnlace() {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(enlaceActual).then(() => {
+        alert("✅ ¡Enlace copiado al portapapeles!");
+      }).catch(() => copiarEnlaceFallback());
+    } else {
+      copiarEnlaceFallback();
+    }
+  }
+
+  function copiarEnlaceFallback() {
+    const t = document.createElement("textarea");
+    t.value = enlaceActual;
+    document.body.appendChild(t);
+    t.select();
+    document.execCommand("copy");
+    document.body.removeChild(t);
+    alert("✅ ¡Enlace copiado!");
+  }
+
+  // Jugador escoge color
+  function escogerColor() {
+    const playerNameInput = document.getElementById("playerName");
+    const nombre = playerNameInput ? playerNameInput.value.trim() : "";
+
+    if (!nombre) {
+      alert("⚠️ Escribe tu nombre");
+      return;
+    }
+
+    if (coloresSeleccionados.length === 0) {
+      alert("⚠️ No hay colores disponibles");
+      return;
+    }
+
+    // Verificar si ya jugó
+    const juegoData = JSON.parse(localStorage.getItem('juego_' + codigoJuego));
+    if (juegoData) {
+      const yaJugo = juegoData.jugadores.find(j => j.nombre.toLowerCase() === nombre.toLowerCase());
+      if (yaJugo) {
+        alert("⚠️ Este nombre ya fue registrado. Usa otro nombre o contacta al organizador.");
+        return;
+      }
+    }
+
+    // Asignar color aleatorio
+    const colorElegido = coloresSeleccionados[Math.floor(Math.random() * coloresSeleccionados.length)];
+    const codigoColor = mapaColores[colorElegido] || colorElegido;
+
+    // Guardar jugador
+    if (juegoData) {
+      juegoData.jugadores.push({
+        nombre: nombre,
+        color: colorElegido,
+        codigo: codigoColor,
+        fecha: new Date().toISOString()
+      });
+      localStorage.setItem('juego_' + codigoJuego, JSON.stringify(juegoData));
+    }
+
+    // Mostrar resultado
+    const playerDisplayName = document.getElementById("playerDisplayName");
+    if (playerDisplayName) playerDisplayName.textContent = nombre;
+
+    const organizerName = document.getElementById("organizerName");
+    if (organizerName) organizerName.textContent = nombreOrganizador;
+
+    const colorName = document.getElementById("colorName");
+    if (colorName) colorName.textContent = colorElegido;
+
+    const box = document.getElementById("colorReveal");
+    if (box) {
+      box.style.backgroundColor = codigoColor;
+      box.textContent = "🎄";
+      box.style.color = coloresClaros.includes(colorElegido) ? "#000" : "#fff";
+    }
+
+    mostrarPantalla(4);
+    lanzarConfeti();
+  }
+
+  // Panel de administrador
+  function irAPanelAdmin() {
+    mostrarPantalla(5);
+  }
+
+  function verificarAdmin() {
+    const codeInput = document.getElementById("adminCodeInput");
+    const code = codeInput ? codeInput.value.trim().toUpperCase() : "";
+
+    if (code !== codigoAdmin) {
+      alert("❌ Código incorrecto");
+      return;
+    }
+
+    const juegoData = JSON.parse(localStorage.getItem('juego_' + codigoJuego));
+    if (!juegoData) {
+      alert("❌ No se encontraron datos del juego");
+      return;
+    }
+
+    // Actualizar estadísticas
+    const totalPlayers = document.getElementById("totalPlayers");
+    if (totalPlayers) totalPlayers.textContent = juegoData.jugadores.length;
+
+    const totalColors = document.getElementById("totalColors");
+    if (totalColors) totalColors.textContent = juegoData.colores.length;
+
+    // Mostrar lista de jugadores
+    const playerList = document.getElementById("playerList");
+    if (playerList) {
+      playerList.innerHTML = '';
+
+      if (juegoData.jugadores.length === 0) {
+        playerList.innerHTML = '<p style="text-align: center; opacity: 0.7;">Aún no hay jugadores</p>';
+      } else {
+        juegoData.jugadores.forEach(jugador => {
+          const item = document.createElement("div");
+          item.className = "player-item";
+
+          const nameDiv = document.createElement("div");
+          nameDiv.className = "player-name";
+          nameDiv.textContent = "🎅 " + jugador.nombre;
+
+          const colorDiv = document.createElement("div");
+          colorDiv.className = "player-color";
+          colorDiv.style.backgroundColor = jugador.codigo;
+          colorDiv.style.color = coloresClaros.includes(jugador.color) ? "#000" : "#fff";
+          colorDiv.textContent = jugador.color;
+
+          item.appendChild(nameDiv);
+          item.appendChild(colorDiv);
+          playerList.appendChild(item);
+        });
+      }
+    }
+
+    const adminPanel = document.getElementById("adminPanel");
+    if (adminPanel) adminPanel.style.display = "block";
+  }
+
+  // Exportar resultados
+  function exportarResultados() {
+    const juegoData = JSON.parse(localStorage.getItem('juego_' + codigoJuego));
+    if (!juegoData || juegoData.jugadores.length === 0) {
+      alert("No hay resultados para exportar");
+      return;
+    }
+
+    let texto = "🎄 AMIGO SECRETO DE COLORES 🎄\n\n";
+    texto += "Organizador: " + juegoData.organizador + "\n";
+    texto += "Fecha: " + new Date(juegoData.fecha).toLocaleString() + "\n\n";
+    texto += "COLORES DISPONIBLES:\n";
+    texto += juegoData.colores.join(", ") + "\n\n";
+    texto += "JUGADORES Y SUS COLORES:\n";
+    texto += "─".repeat(40) + "\n";
+
+    juegoData.jugadores.forEach((jugador, index) => {
+      texto += (index + 1) + ". " + jugador.nombre + " → " + jugador.color + "\n";
+    });
+
+    const blob = new Blob([texto], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'amigo_secreto_colores_' + codigoJuego + '.txt';
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    alert("✅ Resultados exportados");
+  }
+
+  // Volver al inicio
+  function volverInicio() {
+    const senderName = document.getElementById("senderName");
+    if (senderName) senderName.value = "";
+
+    const adminCodeInput = document.getElementById("adminCodeInput");
+    if (adminCodeInput) adminCodeInput.value = "";
+
+    const adminPanel = document.getElementById("adminPanel");
+    if (adminPanel) adminPanel.style.display = "none";
+
+    coloresSeleccionados = [];
+    actualizarListaColores();
+    mostrarPantalla(1);
+  }
+
+  // Animación de confeti
+  function lanzarConfeti() {
+    const emojis = ["🎄", "⭐", "🎁", "❄️", "🔔", "✨"];
+    for (let i = 0; i < 25; i++) {
+      setTimeout(() => {
+        const c = document.createElement("div");
+        c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        c.style.cssText = `
+          position: fixed;
+          left: ${Math.random() * 100}vw;
+          top: -30px;
+          font-size: ${1 + Math.random() * 1.5}rem;
+          pointer-events: none;
+          z-index: 9999;
+          transition: transform 2.5s ease-in, opacity 2.5s;
+        `;
+        document.body.appendChild(c);
+        requestAnimationFrame(() => {
+          c.style.transform = `translateY(110vh) rotate(${Math.random() * 720}deg)`;
+          c.style.opacity = "0";
+        });
+        setTimeout(() => c.remove(), 2500);
+      }, i * 100);
+    }
+  }
+
+  // Copos de nieve
+  function crearNieve() {
+    const flakes = ["❄", "❅", "❆"];
+    setInterval(() => {
+      const s = document.createElement("div");
+      s.className = "snow";
+      s.textContent = flakes[Math.floor(Math.random() * flakes.length)];
+      s.style.left = Math.random() * 100 + "vw";
+      s.style.fontSize = (0.8 + Math.random() * 1.2) + "rem";
+      s.style.opacity = 0.5 + Math.random() * 0.5;
+      s.style.animationDuration = (5 + Math.random() * 7) + "s";
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 12000);
+    }, 600);
+  }
+
+  // Inicialización
+  document.addEventListener('DOMContentLoaded', () => {
+    detectarDispositivo();
+    verificarParametros();
+    crearNieve();
+  });
+</script>
+
+</body>
+</html>
